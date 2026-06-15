@@ -10,8 +10,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Nextcommerce-Dashboard",
-  description: "Revolutionizing E-commerce with Next.js",
+  title: "ResellerBus-Dashboard",
+  description: "Revolutionizing E-commerce",
 };
 
 export default async function RootLayout({
