@@ -30,11 +30,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   const product = rawProduct
     ? {
         ...rawProduct,
-        variations: rawProduct.variations.map((variation) => ({
-          ...variation,
-          size: variation.size ?? undefined,
-          color: variation.color ?? undefined,
-        })),
+        variations: rawProduct.variations,
       }
     : null;
 
