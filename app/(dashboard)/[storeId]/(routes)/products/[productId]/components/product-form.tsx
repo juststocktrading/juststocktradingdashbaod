@@ -108,9 +108,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           colorId: variation.colorId || undefined,
           price: parseFloat(String(variation.price)),
           stock:
-            typeof variation.stock === "bigint"
-              ? Number(variation.stock)
-              : variation.stock,
+            variation.stock != null
+              ? typeof variation.stock === "bigint"
+                ? Number(variation.stock)
+                : variation.stock
+              : undefined,
           images: (variation.images || []).map((img) => ({ url: img.url })),
         })),
         isFeatured: initialData.isFeatured,
@@ -121,7 +123,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         description: "",
         categoryId: "",
         variations: [
-          { sizeId: "", colorId: "", price: 0, stock: 0, images: [] },
+          { sizeId: undefined, colorId: undefined, price: 0, stock: undefined, images: [] },
         ],
         isFeatured: false,
         isArchived: false,
@@ -408,10 +410,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               variant="outline"
               onClick={() =>
                 append({
-                  sizeId: "",
-                  colorId: "",
+                  sizeId: undefined,
+                  colorId: undefined,
                   price: 0,
-                  stock: 0,
+                  stock: undefined,
                   images: [],
                 })
               }
