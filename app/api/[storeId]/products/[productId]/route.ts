@@ -13,15 +13,6 @@ type ModifyParams = {
   params: Promise<{ productId: string; storeId: string }>;
 };
 
-// Define the expected shape of a variation in the PATCH request body
-interface VariationInput {
-  sizeId?: string | null;
-  colorId?: string | null;
-  price: number;
-  stock: number;
-  images?: { url: string }[];
-}
-
 export async function GET(req: Request, { params }: GetParams) {
   try {
     // Await the params to get productId
@@ -71,6 +62,11 @@ export async function DELETE(req: Request, { params }: ModifyParams) {
 
     // Start a transaction to delete variations and product
     const product = await prismadb.$transaction(async (tx) => {
+      // Delete all order items referencing the product
+      await tx.orderItem.deleteMany({
+        where: { productId },
+      });
+
       // Delete all variations associated with the product
       await tx.variation.deleteMany({
         where: { productId },
@@ -112,7 +108,13 @@ export async function PATCH(req: Request, { params }: ModifyParams) {
       name: string;
       description?: string;
       categoryId: string;
-      variations: VariationInput[];
+      variations: {
+        sizeId?: string;
+        colorId?: string;
+        price: number;
+        stock?: number;
+        images?: { url: string }[];
+      }[];
       isFeatured?: boolean;
       isArchived?: boolean;
       images?: { url: string }[];
@@ -166,7 +168,7 @@ export async function PATCH(req: Request, { params }: ModifyParams) {
             sizeId: variation.sizeId ?? null,
             colorId: variation.colorId ?? null,
             price: variation.price,
-            stock: variation.stock,
+            stock: variation.stock ?? null,
             createdAt: now,
             updatedAt: now,
             images: {

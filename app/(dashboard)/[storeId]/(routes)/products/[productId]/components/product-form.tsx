@@ -45,10 +45,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 
 const variationSchema = z.object({
-  sizeId: z.string().min(1, "Size is required"),
-  colorId: z.string().min(1, "Color is required"),
+  sizeId: z.string().optional(),
+  colorId: z.string().optional(),
   price: z.coerce.number().min(0, "Price must be non-negative"),
-  stock: z.coerce.number().int().min(0, "Stock must be non-negative"),
+  stock: z.coerce.number().int().min(0, "Stock must be non-negative").optional(),
   images: z.object({ url: z.string() }).array(),
 });
 
@@ -286,15 +286,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     name={`variations.${index}.sizeId`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Size</FormLabel>
+                        <FormLabel>Size (Optional)</FormLabel>
                         <Select
                           disabled={loading}
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value ?? ""}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a size" />
+                              <SelectValue placeholder="No size" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -314,15 +314,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     name={`variations.${index}.colorId`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Color</FormLabel>
+                        <FormLabel>Color (Optional)</FormLabel>
                         <Select
                           disabled={loading}
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value ?? ""}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a color" />
+                              <SelectValue placeholder="No color" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -361,7 +361,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     name={`variations.${index}.stock`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Stock</FormLabel>
+                        <FormLabel>Stock (Optional)</FormLabel>
                         <FormControl>
                           <Input
                             type="number"

@@ -10,10 +10,10 @@ type RouteParams = {
 
 // Define the expected shape of a variation in the POST request body
 interface VariationInput {
-  sizeId: string;
-  colorId: string;
+  sizeId?: string;
+  colorId?: string;
   price: number;
-  stock: number;
+  stock?: number;
   images?: { url: string }[];
 }
 
@@ -64,10 +64,10 @@ export async function POST(req: Request, { params }: RouteParams) {
         updatedAt: now,
         variations: {
           create: variations.map((variation) => ({
-            sizeId: variation.sizeId,
-            colorId: variation.colorId,
+            sizeId: variation.sizeId ?? undefined,
+            colorId: variation.colorId ?? undefined,
             price: variation.price,
-            stock: variation.stock,
+            stock: variation.stock ?? undefined,
             createdAt: now,
             updatedAt: now,
             images: {

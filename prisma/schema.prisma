@@ -140,18 +140,18 @@ model Store {
 
 model Variation {
   id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  colorId   String      @db.ObjectId
+  colorId   String?     @db.ObjectId
   createdAt DateTime    @db.Date
   price     Float
   productId String      @db.ObjectId
-  sizeId    String      @db.ObjectId
-  stock     Int
+  sizeId    String?     @db.ObjectId
+  stock     Int?
   updatedAt DateTime    @db.Date
   images    Image[]
   OrderItem OrderItem[]
-  color     Color       @relation(fields: [colorId], references: [id])
+  color     Color?      @relation(fields: [colorId], references: [id])
   product   Product     @relation(fields: [productId], references: [id])
-  size      Size        @relation(fields: [sizeId], references: [id])
+  size      Size?       @relation(fields: [sizeId], references: [id])
 
   @@index([productId])
   @@index([sizeId])
