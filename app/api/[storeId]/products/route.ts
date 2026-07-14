@@ -64,10 +64,10 @@ export async function POST(req: Request, { params }: RouteParams) {
         updatedAt: now,
         variations: {
           create: variations.map((variation) => ({
-            sizeId: variation.sizeId ?? undefined,
-            colorId: variation.colorId ?? undefined,
+            sizeId: variation.sizeId ?? null,
+            colorId: variation.colorId ?? null,
             price: variation.price,
-            stock: variation.stock ?? undefined,
+            stock: variation.stock ?? null,
             createdAt: now,
             updatedAt: now,
             images: {
